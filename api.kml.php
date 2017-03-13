@@ -1,6 +1,7 @@
 <?php
 $API_BASE_URL = 'http://api.openstreetmap.org/api/0.6/notes.json';
-
+$USER_AGENT = 'Harry\'s notes as KML tool';
+  
 function get_url($url) {
   if (function_exists('curl_version')) {
     $content = get_curl_style($url);
@@ -13,17 +14,26 @@ function get_url($url) {
   return $content;
 }
 function get_curl_style($url) {
+  global $USER_AGENT;
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $url );
-  //curl_setopt($ch, CURLOPT_HEADER, 1);
+  curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+      'X-Forwarded-For: ' . $_SERVER['REMOTE_ADDR'],
+      'User-Agent: ' . $USER_AGENT
+    ));
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  //curl_setopt($ch,CURLOPT_FAILONERROR,true);
   $data = curl_exec($ch);
+  $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
   curl_close($ch);
+  if ($code<200 || $code>=300) {
+    die("Notes API responded with code $code \"$data\" (URL $url)");
+  }
   return $data;
 }
 function get_filecontent_style($url) {
-  $user_agent = "Harry's notes tool";
-  $options  = array('http' => array('user_agent' => $user_agent ));
+  global $USER_AGENT;
+  $options  = array('http' => array('user_agent' => $USER_AGENT ));
   $context  = stream_context_create($options);
   $response = file_get_contents($url, false, $context);
   return $response;
@@ -46,7 +56,12 @@ function geojson_feature_2_kml_placemark($geojson_feature) {
   $description .= "<br><br>";
   $description .= "<a href=\"http://www.openstreetmap.org/note/$note_id\">view note</a>";
   
-  $name = $geojson_feature['properties']['comments'][0]['text'];
+  if (count($geojson_feature['properties']['comments'])==0) {
+    // https://github.com/openstreetmap/openstreetmap-website/issues/1203
+    $name = 'empty note';
+  } else {
+    $name = $geojson_feature['properties']['comments'][0]['text'];
+  }
   $name = htmlspecialchars(preg_replace('/\s+/', ' ', substr($name, 0, 50)));
 
   $lon = $geojson_feature['geometry']['coordinates'][0];
@@ -71,6 +86,14 @@ function validate_bbox($bbox_param) {
   if ($max_lon < -180 || $max_lon > 180) die('bad bbox format. bad max lon');
   if ($min_lat < -90 || $min_lat > 90) die('bad bbox format. bad min lat');
   if ($max_lat < -90 || $max_lat > 90) die('bad bbox format. bad max lat');
+  if ($min_lat > $max_lat) die('bad bbox format. min_lat > max_lat');
+  if ($min_lon > $max_lon) die('bad bbox format. min_lon > max_lon');
+  
+  // Check bbox size
+  $width = $max_lon - $min_lon;
+  $height = $max_lat - $min_lat;
+  // https://github.com/openstreetmap/openstreetmap-website/blob/master/config/example.application.yml#L33
+  if ($width * $height > 25) die('bbox too big. Max 25 square degrees');
 }
 
 // ------ 
@@ -87,7 +110,8 @@ if ($limit < 1) die('limit must be >0');
 $closed = isset($_GET['closed']) ? $_GET['closed'] : 0;
 if (!ctype_digit($closed)) die('bad closed param');
 
-$download = isset($_GET['download']) ? boolval($_GET['download']) : true;
+$download_param = isset($_GET['download']) ? $_GET['download'] : 'true';
+$download = filter_var($download_param, FILTER_VALIDATE_BOOLEAN);
 
 $url = "$API_BASE_URL?bbox=$bbox&limit=$limit&closed=$closed";
 
@@ -95,6 +119,7 @@ $notes_data_str = get_url($url);
 // $notes_data_str = file_get_contents("london-notes.json");
 
 $notes_data = json_decode($notes_data_str, true);
+if (!$notes_data['features']) die("OSM notes API response has no 'features'. URL: $url");
 
 if ($download) {
   header('Content-Description: File Transfer');
@@ -104,6 +129,8 @@ if ($download) {
   header('Connection: Keep-Alive');
   header('Expires: 0');
   header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+} else {
+  print '<pre>';
 }
 
 ?>
