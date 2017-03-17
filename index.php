@@ -22,7 +22,7 @@
 
    <script>
 var map;
-var rect;
+var crosshair;
 
 function init() {
   $('#msg').hide();
@@ -54,13 +54,27 @@ function init() {
   crosshair = new L.marker(map.getCenter(), {icon: crosshairIcon, clickable:false});
   crosshair.addTo(map);
 
-  map.on('move',function(e) {
-    crosshair.setLatLng(map.getCenter());
-  });
+  map.on('move', mapMove);
 
   map.fire('move');
 
   getLocation();
+}
+
+function mapMove() {
+  crosshair.setLatLng(map.getCenter());
+
+  var bounds = map.getBounds();
+  var area = (bounds.getEast() - bounds.getWest()) * (bounds.getNorth() - bounds.getSouth());
+  console.log('area:' + area);
+
+  if (area > 25) {
+    $('#zoomalert').show();
+    $('#getbtn').hide();
+  } else {
+    $('#zoomalert').hide();
+    $('#getbtn').show();
+  }
 }
 
 // http://stackoverflow.com/a/901144/338265
@@ -76,18 +90,18 @@ function getParameterByName(name, url) {
 
 function getKML() {
   if (confirm('Requesting notes for the visible area up to a limit of 1000')) {
-    bounds = map.getBounds()
+    bounds = map.getBounds();
     url = "./api.kml.php?" +
           "bbox=" + bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth() +
           "&limit=1000" +
           "&closed=0";
     //alert(url);
-    
+
     $('#map').hide();
     $('#msg').html('<h1>Generating KML download</h1>' +
-    	           '<p>"open" the download using the MAPS.ME app when prompted</p>');
+                   '<p>"open" the download using the MAPS.ME app when prompted</p>');
     $('#msg').show();
-    
+
     window.location = url;
   }
 }
@@ -120,7 +134,7 @@ function showPosition(position) {
     and get it set up showing maps before proceeding.</p>
 
     <input id='proceedbtn' type="button" value="Pick an area" onclick="init();">
-    
+
     <p>
     <a href="http://harrywood.co.uk/blog/2017/03/12/notes-in-maps-me/">Blog post</a> |
     <a href="https://github.com/harry-wood/osm-notes-kml">Code on github</a>
@@ -128,6 +142,7 @@ function showPosition(position) {
   </div>
   <div id="map">
     <div id="panel">
+      <div id='zoomalert'>Zoom in for a smaller area</div>
       <input id='getbtn' type="button" value="Generate Notes KML" onclick="getKML();">
     </div>
   </div>
