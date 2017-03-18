@@ -3,7 +3,7 @@ OpenStreetMap Notes as KML
 
 Running here: http://harrywood.co.uk/maps/notes/kml/
 
-[Blog post](http://harrywood.co.uk/blog/2017/03/12/notes-in-maps-me/)
+[Blog post](https://harrywood.co.uk/blog/2017/03/12/notes-in-maps-me/)
 
 index.php is the website with map (mostly javascript uses very little php)
 

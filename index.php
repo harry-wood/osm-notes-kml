@@ -136,7 +136,7 @@ function showPosition(position) {
     <input id='proceedbtn' type="button" value="Pick an area" onclick="init();">
 
     <p>
-    <a href="http://harrywood.co.uk/blog/2017/03/12/notes-in-maps-me/">Blog post</a> |
+    <a href="https://harrywood.co.uk/blog/2017/03/12/notes-in-maps-me/">Blog post</a> |
     <a href="https://github.com/harry-wood/osm-notes-kml">Code on github</a>
     </p>
   </div>
