@@ -90,12 +90,14 @@ function getParameterByName(name, url) {
 
 function getKML() {
   if (confirm('Requesting notes for the visible area up to a limit of 1000')) {
-    bounds = map.getBounds();
+    var bounds = map.getBounds();
+    var colour = getParameterByName('colour'); // TODO: settings interface to control this
+    if (colour == null) colour = 'none';
     url = "./api.kml.php?" +
           "bbox=" + bounds.getWest() + ',' + bounds.getSouth() + ',' + bounds.getEast() + ',' + bounds.getNorth() +
           "&limit=1000" +
-          "&closed=0";
-    //alert(url);
+          "&closed=0" +
+          "&colour=" + colour;
 
     $('#map').hide();
     $('#msg').html('<h1>Generating KML download</h1>' +
