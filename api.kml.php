@@ -1,5 +1,5 @@
 <?php
-$API_BASE_URL = 'http://api.openstreetmap.org/api/0.6/notes.json';
+$API_BASE_URL = 'https://api.openstreetmap.org/api/0.6/notes.json';
 $USER_AGENT = 'Harry\'s notes as KML tool';
 
 function get_url($url) {
