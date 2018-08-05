@@ -66,7 +66,7 @@ function geojson_feature_2_kml_placemark($geojson_feature, $colour_scheme) {
   $lon = $geojson_feature['geometry']['coordinates'][0];
   $lat = $geojson_feature['geometry']['coordinates'][1];
 
-  if (in_array($colour_scheme, array('red', 'yellow  ', 'blue', 'green', 'purple', 'orange', 'brown', 'pink'))) {
+  if (in_array($colour_scheme, array('red', 'yellow', 'blue', 'green', 'purple', 'orange', 'brown', 'pink'))) {
     // Plain colour colour scheme
     $colour = $colour_scheme;
   }
@@ -116,7 +116,7 @@ $closed = isset($_GET['closed']) ? $_GET['closed'] : 0;
 if (!ctype_digit($closed)) die('bad closed param');
 
 $colour_scheme = isset($_GET['colour']) ? $_GET['colour'] : 'none';
-if (!in_array($colour_scheme, array('none', 'red', 'yellow  ', 'blue', 'green', 'purple', 'orange', 'brown', 'pink'))) die('invalid colour scheme');
+if (!in_array($colour_scheme, array('none', 'red', 'yellow', 'blue', 'green', 'purple', 'orange', 'brown', 'pink'))) die('invalid colour scheme');
 
 $download_param = isset($_GET['download']) ? $_GET['download'] : 'true';
 $download = filter_var($download_param, FILTER_VALIDATE_BOOLEAN);
