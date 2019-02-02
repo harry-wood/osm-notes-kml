@@ -29,8 +29,8 @@ function init() {
   $('#map').show();
   map = L.map('map');
 
-  L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
     maxZoom: 15
   }).addTo(map);
   map.attributionControl.setPrefix('');
