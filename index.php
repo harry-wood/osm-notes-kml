@@ -133,10 +133,10 @@ function showPosition(position) {
     </p>
   </div>
   <div id="map">
-    <div class="lshape" style="left:42; top:42; border-left:solid; border-top:solid; width:10%; height:10%;"> </div>:
-    <div class="lshape" style="right:42; top:42; border-right:solid; border-top:solid; width:10%; height:10%;"> </div>:
-    <div class="lshape" style="left:42; bottom:42; border-left:solid; border-bottom:solid; width:10%; height:10%;"> </div>:
-    <div class="lshape" style="right:42; bottom:42; border-right:solid; border-bottom:solid; width:10%; height:10%;"> </div>:
+    <div class="lshape" style="left:52; top:52; border-left:solid; border-top:solid; width:10%; height:10%;"> </div>:
+    <div class="lshape" style="right:52; top:52; border-right:solid; border-top:solid; width:10%; height:10%;"> </div>:
+    <div class="lshape" style="left:52; bottom:52; border-left:solid; border-bottom:solid; width:10%; height:10%;"> </div>:
+    <div class="lshape" style="right:52; bottom:52; border-right:solid; border-bottom:solid; width:10%; height:10%;"> </div>:
     <div id="panel">
       <div id='zoomalert'>Zoom in for a smaller area</div>
       <input id='getbtn' type="button" value="Generate Notes KML" onclick="getKML();">
