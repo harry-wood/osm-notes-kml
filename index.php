@@ -18,11 +18,11 @@
    #panel { padding:3px; position: absolute; bottom:2px; left:2px; background: LIGHTGREY; z-index:9999; }
    #getbtn { font-size:1.3em; padding: 10px 12px; text-align: center; }
    #proceedbtn { font-size:1.3em; padding: 10px 12px; }
+   .lshape { position: absolute; border-width:2px; border-color: BLACK; z-index:9999; }
    </style>
 
    <script>
 var map;
-var crosshair;
 
 function init() {
   $('#msg').hide();
@@ -47,23 +47,13 @@ function init() {
   // map view before we get the location
   map.setView(new L.LatLng(51.505, -0.09), 3);
 
-  // Add in a crosshair for the map
-  var crosshairIcon = L.icon({
-    iconUrl: 'crosshairs.png', iconSize: [100, 100], iconAnchor: [50, 50],
-  });
-  crosshair = new L.marker(map.getCenter(), {icon: crosshairIcon, clickable:false});
-  crosshair.addTo(map);
-
   map.on('move', mapMove);
-
   map.fire('move');
 
   getLocation();
 }
 
 function mapMove() {
-  crosshair.setLatLng(map.getCenter());
-
   var bounds = map.getBounds();
   var area = (bounds.getEast() - bounds.getWest()) * (bounds.getNorth() - bounds.getSouth());
   console.log('area:' + area);
@@ -143,6 +133,10 @@ function showPosition(position) {
     </p>
   </div>
   <div id="map">
+    <div class="lshape" style="left:42; top:42; border-left:solid; border-top:solid; width:10%; height:10%;"> </div>:
+    <div class="lshape" style="right:42; top:42; border-right:solid; border-top:solid; width:10%; height:10%;"> </div>:
+    <div class="lshape" style="left:42; bottom:42; border-left:solid; border-bottom:solid; width:10%; height:10%;"> </div>:
+    <div class="lshape" style="right:42; bottom:42; border-right:solid; border-bottom:solid; width:10%; height:10%;"> </div>:
     <div id="panel">
       <div id='zoomalert'>Zoom in for a smaller area</div>
       <input id='getbtn' type="button" value="Generate Notes KML" onclick="getKML();">
