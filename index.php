@@ -91,7 +91,7 @@ function getKML() {
 
     $('#map').hide();
     $('#msg').html('<h1>Generating KML download</h1>' +
-                   '<p>"open" the download using the MAPS.ME app when prompted</p>');
+                   '<p>"open" the download using the Organic Maps app when prompted</p>');
     $('#msg').show();
 
     window.location = url;
@@ -117,18 +117,18 @@ function showPosition(position) {
     <h1>OpenStreetMap Notes as KML</h1>
     <p>This let's you grab all the OpenStreetMap Notes in an area and
     download them as KML. Such a download might be useful for various things,
-    but mostly the idea is to easily load notes into MAPS.ME</p>
+    but mostly the idea is to easily load notes into Organic Maps</p>
 
-    <p>Don't have MAPS.ME? Install it
-    <a href="https://itunes.apple.com/app/id510623322">for iPhone</a>
+    <p>Don't have Organic Maps? Install it
+    <a href="https://apps.apple.com/app/organic-maps/id1567437057">for iPhone</a>
     or
-    <a href="https://play.google.com/store/apps/details?id=com.mapswithme.maps.pro">for Android</a>
+    <a href="https://play.google.com/store/apps/details?id=app.organicmaps&hl=en">for Android</a>
     and get it set up showing maps before proceeding.</p>
 
     <input id='proceedbtn' type="button" value="Pick an area" onclick="init();">
 
     <p>
-    <a href="https://harrywood.co.uk/blog/2017/03/12/notes-in-maps-me/">Blog post</a> |
+    <a href="https://harrywood.co.uk/blog/2017/03/12/notes-in-organic-maps/">Blog post</a> |
     <a href="https://github.com/harry-wood/osm-notes-kml">Code on github</a>
     </p>
   </div>
