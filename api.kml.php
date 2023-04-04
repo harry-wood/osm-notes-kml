@@ -51,7 +51,7 @@ function geojson_feature_2_kml_placemark($geojson_feature, $colour_scheme) {
     $description .= preg_replace('/\s+/', ' ', $comment['html']);
   }
   $note_id = $geojson_feature['properties']['id'];
-  $description .= "<a href=\"http://www.openstreetmap.org/note/$note_id\">view note</a>";
+  $description .= "<a href=\"https://www.openstreetmap.org/note/$note_id\">view note $note_id</a>";
 
   if (count($geojson_feature['properties']['comments'])==0) {
     // https://github.com/openstreetmap/openstreetmap-website/issues/1203
