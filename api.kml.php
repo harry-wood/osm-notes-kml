@@ -43,17 +43,15 @@ function geojson_feature_2_kml_placemark($geojson_feature, $colour_scheme) {
   $description = '';
 
   foreach ($geojson_feature['properties']['comments'] as $comment) {
-    if ($description != '') $description .= "<br><hr><br>";
+    if ($description != '') $description .= "<hr>";
     $user = array_key_exists('user', $comment) ? $comment['user'] : 'anon';
     $description .= "$user ";
     $description .= $comment['action'] . ' on ';
     $description .= $comment['date'];
-    $description .= "<br><br>";
-    $description .= "\"". htmlspecialchars(preg_replace('/\s+/', ' ', $comment['text'])) . "\"";
+    $description .= preg_replace('/\s+/', ' ', $comment['html']);
   }
   $note_id = $geojson_feature['properties']['id'];
-  $description .= "<br><br>";
-  $description .= "<a href=\"http://www.openstreetmap.org/note/$note_id\">view note</a>";
+  $description .= "<a href=\"https://www.openstreetmap.org/note/$note_id\">view note $note_id</a>";
 
   if (count($geojson_feature['properties']['comments'])==0) {
     // https://github.com/openstreetmap/openstreetmap-website/issues/1203
